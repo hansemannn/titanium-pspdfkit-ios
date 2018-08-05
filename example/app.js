@@ -1,15 +1,21 @@
 import PSPDFKit from 'ti.pspdfkit';
 
-var win = Ti.UI.createWindow({
+// Set your license key
+PSPDFKit.licenseKey = 'YOUR_LICENSE_KEY';
+
+const win = Ti.UI.createWindow({
     backgroundColor: '#fff'
 });
  
-var btn = Ti.UI.createButton({
+const btn = Ti.UI.createButton({
     title: 'Open PDF Document'
 });
+
+const document = Ti.Filesystem.getFile('PSPSDKit.pdf');
  
 btn.addEventListener('click', () => {
-    PSPDFKit.present('PSPDFKit.pdf', {
+    // Show our PDF document
+    PSPDFKit.present(document, {
         documentLabelEnabled: true
     });
 });

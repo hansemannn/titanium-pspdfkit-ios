@@ -97,7 +97,7 @@ class TiPspdfkitModule: TiModule, PSPDFViewControllerDelegate {
   }
 
   @objc(cacheDocument:)
-  public func cacheDocument(filePaths: [String]) {
+  public func cacheDocument(filePaths: [TiFile]) {
     for document in TiPSPDFKitUtils.documents(from: filePaths) {
       PSPDFKit.sharedInstance.cache.cacheDocument(document, withPageSizes: [
         NSValue(cgSize: CGSize(width: 170, height: 220)),
@@ -107,14 +107,14 @@ class TiPspdfkitModule: TiModule, PSPDFViewControllerDelegate {
   }
 
   @objc(removeCacheForDocument:)
-  public func removeCacheForDocument(filePaths: [String]) {
+  public func removeCacheForDocument(filePaths: [TiFile]) {
     for document in TiPSPDFKitUtils.documents(from: filePaths) {
       PSPDFKit.sharedInstance.cache.remove(for: document)
     }
   }
 
   @objc(stopCachingDocument:)
-  public func stopCachingDocument(filePaths: [String]) {
+  public func stopCachingDocument(filePaths: [TiFile]) {
     for document in TiPSPDFKitUtils.documents(from: filePaths) {
       PSPDFKit.sharedInstance.cache.stopCachingDocument(document)
     }
@@ -124,7 +124,7 @@ class TiPspdfkitModule: TiModule, PSPDFViewControllerDelegate {
   public func present(arguments: [Any]) {
     var pdfViewController: PSPDFViewController?
   
-    guard let url = arguments.first as? String else { fatalError("Missing required 1st parameter (url)") }
+    guard let url = arguments.first as? TiFile else { fatalError("Missing required 1st parameter (url)") }
 
     if let config = arguments[1] as? [String: Any], let nativeConfig = try? PSPDFConfiguration(dictionary: config) {
       pdfViewController = PSPDFViewController(document: TiPSPDFKitUtils.documents(from: [url]).first!, configuration: nativeConfig)
@@ -135,7 +135,14 @@ class TiPspdfkitModule: TiModule, PSPDFViewControllerDelegate {
     pdfViewController?.delegate = self
 
     let nav = UINavigationController(rootViewController: pdfViewController!)
-    TiApp().showModalController(nav, animated: true)
+    nav.view.backgroundColor = UIColor.white
+
+    TiThreadPerformOnMainThread({
+      TiApp.controller().topPresentedController().present(nav, animated: true, completion: { [weak self] in
+        guard let strongSelf = self else { return }
+        strongSelf.fireEvent("open", with: nil)
+      })
+    }, false)
   }
   
   @objc(dismiss:)
@@ -154,10 +161,6 @@ class TiPspdfkitModule: TiModule, PSPDFViewControllerDelegate {
   }
   
   // MARK: Delegates
-  
-  func pdfViewController(_ pdfController: PSPDFViewController, didShow controller: UIViewController, options: [String : Any]? = nil, animated: Bool) {
-    fireEvent("open", with: nil)
-  }
 
   func pdfViewControllerDidDismiss(_ pdfController: PSPDFViewController) {
     fireEvent("close", with: nil)
