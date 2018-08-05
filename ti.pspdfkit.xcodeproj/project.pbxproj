@@ -17,6 +17,7 @@
 		DB6F247B21173FCE004D15CB /* PSPDFKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB6F247921173FCE004D15CB /* PSPDFKitUI.framework */; };
 		DB6F247C21173FCE004D15CB /* PSPDFKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB6F247A21173FCE004D15CB /* PSPDFKit.framework */; };
 		DB75E5161E9CD59000809B2D /* TiPspdfkit.h in Headers */ = {isa = PBXBuildFile; fileRef = DB75E5151E9CD58100809B2D /* TiPspdfkit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DB922A4C2117461300D7D57D /* TiPSPDFKitUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB922A4B2117461300D7D57D /* TiPSPDFKitUtils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 		DB6F247921173FCE004D15CB /* PSPDFKitUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PSPDFKitUI.framework; path = platform/PSPDFKitUI.framework; sourceTree = "<group>"; };
 		DB6F247A21173FCE004D15CB /* PSPDFKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PSPDFKit.framework; path = platform/PSPDFKit.framework; sourceTree = "<group>"; };
 		DB75E5151E9CD58100809B2D /* TiPspdfkit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TiPspdfkit.h; path = Classes/TiPspdfkit.h; sourceTree = "<group>"; };
+		DB922A4B2117461300D7D57D /* TiPSPDFKitUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TiPSPDFKitUtils.swift; path = Classes/TiPSPDFKitUtils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +70,7 @@
 			children = (
 				DB52E2421E9CD0F800AAAEE0 /* TiPspdfkitModule.swift */,
 				DB24E03B20766AC90033B2B1 /* TiPspdfkitExampleProxy.swift */,
+				DB922A4B2117461300D7D57D /* TiPSPDFKitUtils.swift */,
 			);
 			name = Sources;
 			sourceTree = "<group>";
@@ -193,6 +196,7 @@
 				DB24E03C20766AC90033B2B1 /* TiPspdfkitExampleProxy.swift in Sources */,
 				DB34CDE0207B998A005F8E8C /* TiPspdfkitModuleAssets.m in Sources */,
 				DB52E2431E9CD0F800AAAEE0 /* TiPspdfkitModule.swift in Sources */,
+				DB922A4C2117461300D7D57D /* TiPSPDFKitUtils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import PSPDFKit
+import PSPDFKitUI
 import TitaniumKit
 
 /**
@@ -26,12 +28,31 @@ import TitaniumKit
 @objc(TiPspdfkitModule)
 class TiPspdfkitModule: TiModule {
 
+  // MARK: Public Module Properties
+  
   public let testProperty: String = "Hello World"
   
+  var licenseKey: String {
+    get {
+      fatalError("There is no getter for this API")
+    }
+    set {
+      PSPDFKit.setLicenseKey(newValue)
+    }
+  }
+
+  var version: String {
+    get {
+      return PSPDFKit.versionString
+    }
+  }
+
+  // MARK: Private Module API's
+
   func moduleGUID() -> String {
     return "9791669a-7e47-44fd-b93c-7a6aa8b54163"
   }
-  
+
   override func moduleId() -> String! {
     return "ti.pspdfkit"
   }
@@ -40,11 +61,35 @@ class TiPspdfkitModule: TiModule {
     super.startup()
     debugPrint("[DEBUG] \(self) loaded")
   }
-  
-  @objc(tryThis:)
-  func tryThis(arguments: Array<Any>?) -> String {
-    guard let arguments = arguments, let message = arguments.first else { return "No arguments" }
-    
-    return "\(message) from TiSwift!"
+
+  // MARK: Public Module Methods
+
+  @objc(clearCache)
+  func clearCache() {
+    PSPDFKit.sharedInstance.cache.clear()
+  }
+
+  @objc(cacheDocument:)
+  func cacheDocument(filePaths: [String]) {
+    for document in TiPSPDFKitUtils.documents(from: filePaths) {
+      PSPDFKit.sharedInstance.cache.cacheDocument(document, withPageSizes: [
+        NSValue(cgSize: CGSize(width: 170, height: 220)),
+        NSValue(cgSize: UIScreen.main.bounds.size)
+      ])
+    }
+  }
+
+  @objc(removeCacheForDocument:)
+  func removeCacheForDocument(filePaths: [String]) {
+    for document in TiPSPDFKitUtils.documents(from: filePaths) {
+      PSPDFKit.sharedInstance.cache.remove(for: document)
+    }
+  }
+
+  @objc(stopCachingDocument:)
+  func stopCachingDocument(filePaths: [String]) {
+    for document in TiPSPDFKitUtils.documents(from: filePaths) {
+      PSPDFKit.sharedInstance.cache.stopCachingDocument(document)
+    }
   }
 }
