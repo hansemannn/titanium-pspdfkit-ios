@@ -1,0 +1,12 @@
+tmp
+bin
+build
+*.zip
+.DS_Store
+.project
+/metadata.json
+*.xcodeproj/project.xcworkspace/xcuserdata/*
+*.xcodeproj/xcuserdata
+Carthage
+Cartfile.resolved
+platform

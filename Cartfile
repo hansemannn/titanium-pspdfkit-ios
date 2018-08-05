@@ -1,0 +1,2 @@
+# Download the latest PSPDFKit version. Replace YOUR_API_KEY with...well..you will know!
+binary "https://customers.pspdfkit.com/carthage/YOUR_API_KEY/PSPDFKit.json" >= 6.4

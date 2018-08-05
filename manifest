@@ -1,0 +1,18 @@
+#
+# this is your module manifest and used by Titanium
+# during compilation, packaging, distribution, etc.
+#
+version: 1.0.0
+apiversion: 2
+architectures: armv7 arm64 i386 x86_64
+description: ti.pspdfkit is a Swift based Titanium module.
+author: Hans Knoechel
+license: MIT
+copyright: Copyright (c) 2018 by PSPDFKit
+
+# these should not be edited
+name: ti.pspdfkit
+moduleid: ti.pspdfkit
+guid: 9791669a-7e47-44fd-b93c-7a6aa8b54163
+platform: iphone
+minsdk: 8.0.0
