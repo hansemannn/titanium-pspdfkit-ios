@@ -21,6 +21,30 @@ modern Titanium module development.
   2. Unzip and copy the resulting frameworks `PSPDFKit.framework` and `PSPDFKitUI.framework` to `platform`
   3. Done!
 
+## Example
+
+```js
+import PSPDFKit from 'ti.pspdfkit';
+
+const win = Ti.UI.createWindow({
+    backgroundColor: '#fff'
+});
+ 
+const btn = Ti.UI.createButton({
+    title: 'Open PDF Document'
+});
+ 
+btn.addEventListener('click', () => {
+    PSPDFKit.present('PSPDFKit.pdf', {
+        documentLabelEnabled: true
+    });
+});
+ 
+win.add(btn);
+win.open();
+
+```
+
 ## Build the Module
 
 ```sh
