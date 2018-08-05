@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		DB24E03C20766AC90033B2B1 /* TiPspdfkitExampleProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB24E03B20766AC90033B2B1 /* TiPspdfkitExampleProxy.swift */; };
 		DB34CDE0207B998A005F8E8C /* TiPspdfkitModuleAssets.m in Sources */ = {isa = PBXBuildFile; fileRef = DB34CDDE207B998A005F8E8C /* TiPspdfkitModuleAssets.m */; };
 		DB34CDE1207B998A005F8E8C /* TiPspdfkitModuleAssets.h in Headers */ = {isa = PBXBuildFile; fileRef = DB34CDDF207B998A005F8E8C /* TiPspdfkitModuleAssets.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DB34CDE6207B9EBD005F8E8C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB34CDE5207B9EBD005F8E8C /* Foundation.framework */; };
@@ -21,7 +20,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		DB24E03B20766AC90033B2B1 /* TiPspdfkitExampleProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TiPspdfkitExampleProxy.swift; path = Classes/TiPspdfkitExampleProxy.swift; sourceTree = "<group>"; };
 		DB34CDDE207B998A005F8E8C /* TiPspdfkitModuleAssets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TiPspdfkitModuleAssets.m; path = Classes/TiPspdfkitModuleAssets.m; sourceTree = SOURCE_ROOT; };
 		DB34CDDF207B998A005F8E8C /* TiPspdfkitModuleAssets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TiPspdfkitModuleAssets.h; path = Classes/TiPspdfkitModuleAssets.h; sourceTree = SOURCE_ROOT; };
 		DB34CDE5207B9EBD005F8E8C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -68,9 +66,8 @@
 		DB258CA51F0964F6000D0D8D /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				DB52E2421E9CD0F800AAAEE0 /* TiPspdfkitModule.swift */,
-				DB24E03B20766AC90033B2B1 /* TiPspdfkitExampleProxy.swift */,
-				DB922A4B2117461300D7D57D /* TiPSPDFKitUtils.swift */,
+				DB922A4D21175A0800D7D57D /* Module */,
+				DB922A4E21175A0E00D7D57D /* Utils */,
 			);
 			name = Sources;
 			sourceTree = "<group>";
@@ -110,6 +107,22 @@
 				DB258CA41F0964DE000D0D8D /* Misc */,
 			);
 			name = TiPspdfkit;
+			sourceTree = "<group>";
+		};
+		DB922A4D21175A0800D7D57D /* Module */ = {
+			isa = PBXGroup;
+			children = (
+				DB52E2421E9CD0F800AAAEE0 /* TiPspdfkitModule.swift */,
+			);
+			name = Module;
+			sourceTree = "<group>";
+		};
+		DB922A4E21175A0E00D7D57D /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				DB922A4B2117461300D7D57D /* TiPSPDFKitUtils.swift */,
+			);
+			name = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -193,7 +206,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DB24E03C20766AC90033B2B1 /* TiPspdfkitExampleProxy.swift in Sources */,
 				DB34CDE0207B998A005F8E8C /* TiPspdfkitModuleAssets.m in Sources */,
 				DB52E2431E9CD0F800AAAEE0 /* TiPspdfkitModule.swift in Sources */,
 				DB922A4C2117461300D7D57D /* TiPSPDFKitUtils.swift in Sources */,

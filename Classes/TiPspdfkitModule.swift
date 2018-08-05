@@ -46,6 +46,24 @@ class TiPspdfkitModule: TiModule {
       return PSPDFKit.versionString
     }
   }
+  
+  var languageDictionary: [String: [String: String]] {
+    get {
+      fatalError("There is no getter for this API")
+    }
+    set {
+      PSPDFSetLocalizationDictionary(newValue)
+    }
+  }
+  
+  var logLevel: Int {
+    get {
+      return Int(PSPDFKit.sharedInstance.logLevel.rawValue)
+    }
+    set {
+      PSPDFKit.sharedInstance.logLevel = PSPDFLogLevelMask(rawValue: PSPDFLogLevelMask.RawValue(newValue))
+    }
+  }
 
   // MARK: Private Module API's
 
@@ -90,6 +108,33 @@ class TiPspdfkitModule: TiModule {
   func stopCachingDocument(filePaths: [String]) {
     for document in TiPSPDFKitUtils.documents(from: filePaths) {
       PSPDFKit.sharedInstance.cache.stopCachingDocument(document)
+    }
+  }
+  
+  @objc(present:)
+  func present(arguments: [Any]) {
+    var pdfViewController: PSPDFViewController?
+  
+    guard let url = arguments.first as? String else { fatalError("Missing required 1st parameter (url)") }
+
+    if let config = arguments[1] as? [String: Any], let nativeConfig = try? PSPDFConfiguration(dictionary: config) {
+      pdfViewController = PSPDFViewController(document: TiPSPDFKitUtils.documents(from: [url]).first!, configuration: nativeConfig)
+    } else {
+      pdfViewController = PSPDFViewController(document: TiPSPDFKitUtils.documents(from: [url]).first!)
+    }
+
+    let nav = UINavigationController(rootViewController: pdfViewController!)
+    TiApp().showModalController(nav, animated: true)
+  }
+  
+  @objc(dismiss:)
+  func dismiss(unused: [Any]?) {
+    let topPresentedController = TiApp().controller.topPresentedController()
+    if topPresentedController is UINavigationController, let first = topPresentedController?.childViewControllers.first, first is PSPDFViewController {
+      topPresentedController?.dismiss(animated: true, completion: { [weak self] in
+        guard let strongSelf = self else { return }
+        strongSelf.fireEvent("close", with: nil)
+      })
     }
   }
 }
