@@ -26,6 +26,9 @@ modern Titanium module development.
 ```js
 import PSPDFKit from 'ti.pspdfkit';
 
+// Set your license key
+PSPDFKit.licenseKey = 'YOUR_LICENSE_KEY';
+
 const win = Ti.UI.createWindow({
     backgroundColor: '#fff'
 });
@@ -33,16 +36,18 @@ const win = Ti.UI.createWindow({
 const btn = Ti.UI.createButton({
     title: 'Open PDF Document'
 });
+
+const document = Ti.Filesystem.getFile('PSPSDKit.pdf');
  
 btn.addEventListener('click', () => {
-    PSPDFKit.present('PSPDFKit.pdf', {
+    // Show our PDF document
+    PSPDFKit.present(document, {
         documentLabelEnabled: true
     });
 });
  
 win.add(btn);
 win.open();
-
 ```
 
 ## Build the Module
