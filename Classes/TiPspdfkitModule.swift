@@ -26,13 +26,11 @@ import TitaniumKit
  */
 
 @objc(TiPspdfkitModule)
-class TiPspdfkitModule: TiModule {
+class TiPspdfkitModule: TiModule, PSPDFViewControllerDelegate {
 
   // MARK: Public Module Properties
-  
-  public let testProperty: String = "Hello World"
-  
-  var licenseKey: String {
+
+  public var licenseKey: String {
     get {
       fatalError("There is no getter for this API")
     }
@@ -41,13 +39,24 @@ class TiPspdfkitModule: TiModule {
     }
   }
 
-  var version: String {
+  public var version: String {
     get {
       return PSPDFKit.versionString
     }
   }
   
-  var languageDictionary: [String: [String: String]] {
+  public var pageIndex: Int {
+    get {
+      guard let viewController = _currentPDFViewController() else { return -1 }
+      return Int(viewController.pageIndex)
+    }
+    set {
+      guard let viewController = _currentPDFViewController() else { return }
+      viewController.pageIndex = PageIndex(newValue)
+    }
+  }
+  
+  public var languageDictionary: [String: [String: String]] {
     get {
       fatalError("There is no getter for this API")
     }
@@ -56,7 +65,7 @@ class TiPspdfkitModule: TiModule {
     }
   }
   
-  var logLevel: Int {
+  public var logLevel: Int {
     get {
       return Int(PSPDFKit.sharedInstance.logLevel.rawValue)
     }
@@ -83,12 +92,12 @@ class TiPspdfkitModule: TiModule {
   // MARK: Public Module Methods
 
   @objc(clearCache)
-  func clearCache() {
+  public func clearCache() {
     PSPDFKit.sharedInstance.cache.clear()
   }
 
   @objc(cacheDocument:)
-  func cacheDocument(filePaths: [String]) {
+  public func cacheDocument(filePaths: [String]) {
     for document in TiPSPDFKitUtils.documents(from: filePaths) {
       PSPDFKit.sharedInstance.cache.cacheDocument(document, withPageSizes: [
         NSValue(cgSize: CGSize(width: 170, height: 220)),
@@ -98,21 +107,21 @@ class TiPspdfkitModule: TiModule {
   }
 
   @objc(removeCacheForDocument:)
-  func removeCacheForDocument(filePaths: [String]) {
+  public func removeCacheForDocument(filePaths: [String]) {
     for document in TiPSPDFKitUtils.documents(from: filePaths) {
       PSPDFKit.sharedInstance.cache.remove(for: document)
     }
   }
 
   @objc(stopCachingDocument:)
-  func stopCachingDocument(filePaths: [String]) {
+  public func stopCachingDocument(filePaths: [String]) {
     for document in TiPSPDFKitUtils.documents(from: filePaths) {
       PSPDFKit.sharedInstance.cache.stopCachingDocument(document)
     }
   }
   
   @objc(present:)
-  func present(arguments: [Any]) {
+  public func present(arguments: [Any]) {
     var pdfViewController: PSPDFViewController?
   
     guard let url = arguments.first as? String else { fatalError("Missing required 1st parameter (url)") }
@@ -122,19 +131,37 @@ class TiPspdfkitModule: TiModule {
     } else {
       pdfViewController = PSPDFViewController(document: TiPSPDFKitUtils.documents(from: [url]).first!)
     }
+    
+    pdfViewController?.delegate = self
 
     let nav = UINavigationController(rootViewController: pdfViewController!)
     TiApp().showModalController(nav, animated: true)
   }
   
   @objc(dismiss:)
-  func dismiss(unused: [Any]?) {
+  public func dismiss(unused: [Any]?) {
+    guard let _ = _currentPDFViewController() else { return }
+    TiApp().controller.topPresentedController().dismiss(animated: true, completion: nil)
+  }
+  
+  private func _currentPDFViewController() -> PSPDFViewController? {
     let topPresentedController = TiApp().controller.topPresentedController()
     if topPresentedController is UINavigationController, let first = topPresentedController?.childViewControllers.first, first is PSPDFViewController {
-      topPresentedController?.dismiss(animated: true, completion: { [weak self] in
-        guard let strongSelf = self else { return }
-        strongSelf.fireEvent("close", with: nil)
-      })
+      return first as? PSPDFViewController
     }
+
+    return nil
   }
+  
+  // MARK: Delegates
+  
+  func pdfViewController(_ pdfController: PSPDFViewController, didShow controller: UIViewController, options: [String : Any]? = nil, animated: Bool) {
+    fireEvent("open", with: nil)
+  }
+
+  func pdfViewControllerDidDismiss(_ pdfController: PSPDFViewController) {
+    fireEvent("close", with: nil)
+  }
+  
+  // TODO: Add more here!
 }
