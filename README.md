@@ -11,9 +11,10 @@ modern Titanium module development.
 ### Carthage (Recommended)
 
   1. Change the API key inside the `Cartfile` to match your PSPDFKit API key
-  2. Run `Carthage build --platform iOS`
-  3. Copy the resulting frameworks `PSPDFKit.framework` and `PSPDFKitUI.framework` to `platform`
-  4. Done!
+  2. Run `carthage update` to update the project dependencies
+  3. Run `carthage build --platform iOS` to build the project dependencies
+  4. Copy the resulting frameworks `PSPDFKit.framework` and `PSPDFKitUI.framework` to `platform`
+  5. Done!
 
 ### Manual
 
